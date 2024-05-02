@@ -2,11 +2,8 @@ package bee.treeeditor.com.tree;
 
 import bee.treeeditor.com.util.StreamReader;
 import bee.treeeditor.com.util.StreamWriter;
-import com.sun.source.tree.Tree;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class TreeNode {
@@ -22,22 +19,22 @@ public class TreeNode {
         this.children.add(child);
     }
 
-    public void serialize(FileOutputStream fout) throws IOException {
-        StreamWriter.writeInt(fout, NodeDeserializer.getTypeID(content));
-        this.content.serialize(fout);
-        StreamWriter.writeInt(fout, this.children.size());
+    public void serialize(OutputStream stream) throws IOException {
+        StreamWriter.writeInt(stream, NodeDeserializer.getTypeID(content));
+        this.content.serialize(stream);
+        StreamWriter.writeInt(stream, this.children.size());
         for (TreeNode node : this.children) {
-            node.serialize(fout);
+            node.serialize(stream);
         }
     }
 
-    public static TreeNode deserialize(FileInputStream fin) throws IOException {
+    public static TreeNode deserialize(InputStream stream) throws IOException {
         try {
-            INodeData nodeContent = NodeDeserializer.deserialize(fin);
+            INodeData nodeContent = NodeDeserializer.deserialize(stream);
             TreeNode node = new TreeNode(nodeContent);
-            int childCount = StreamReader.readInt(fin);
+            int childCount = StreamReader.readInt(stream);
             for(int i = 0; i < childCount; i++){
-                node.addChild(deserialize(fin));
+                node.addChild(deserialize(stream));
             }
             return node;
         }catch (StreamReader.InvalidStreamLengthException e){

@@ -1,8 +1,7 @@
 package bee.treeeditor.com.tree;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public interface INodeData {
     int buildPrefix(StringBuilder sb);
@@ -13,5 +12,5 @@ public interface INodeData {
 
     boolean canDivide();
 
-    void serialize(FileOutputStream out) throws IOException;
+    void serialize(OutputStream out) throws IOException;
 }

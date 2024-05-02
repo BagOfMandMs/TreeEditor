@@ -3,12 +3,7 @@ package bee.treeeditor.com.tree.node;
 import bee.treeeditor.com.tree.INodeData;
 import bee.treeeditor.com.util.StreamReader;
 import bee.treeeditor.com.util.StreamWriter;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.ByteBuffer;
+import java.io.*;
 
 public class TextNode implements INodeData {
     private StringBuilder content;
@@ -49,11 +44,11 @@ public class TextNode implements INodeData {
     }
 
     @Override
-    public void serialize(FileOutputStream out) throws IOException {
+    public void serialize(OutputStream out) throws IOException {
         StreamWriter.writeString(out, content.toString());
     }
 
-    public static INodeData deserialize(FileInputStream in) {
+    public static INodeData deserialize(InputStream in) {
         try {
             TextNode newNode = new TextNode();
             newNode.content = new StringBuilder(StreamReader.readString(in));
