@@ -19,6 +19,7 @@ public class TextNode implements INodeData {
     @Override
     public int buildPrefix(StringBuilder sb)  {
         sb.append(content);
+        sb.append("[");
         return content.length();
     }
 
@@ -29,7 +30,7 @@ public class TextNode implements INodeData {
 
     @Override
     public int buildSuffix(StringBuilder sb) {
-        sb.append("\n");
+        sb.append("]");
         return 1;
     }
 
